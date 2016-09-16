@@ -38,37 +38,6 @@ function str2json(literal) {
   return json;
 }
 
-// not in use yet
-function getObjType(shape, label) {
-
-  var obj = JSON.parse("{}");
-  var arr = [];
-  var type = '';
-  switch(shape) {
-    case 'note': 
-	type="note";
-	arr.push("\"label\"");
-	obj = JSON.parse("{\""+type+"\":["+arr+"]}");
-	break;
-    case 'cylinder': 
-	type='source-repository';
-	obj = JSON.parse("{\"source-repository\":[]}");
-	break;
-    case 'dataStorage':
-	type='presentation-layer';
-	obj = JSON.parse("{\"presentation-layer\":[]}");
-	break;
-    case 'dataStore': 
-	type='database-layer';
-	obj = JSON.parse("{\"database-layer\":[]}");
-	break;
-    case 'singleArrow':
-	type='data-flow';
-	obj = JSON.parse("{\"data-flow\":[]}");
-	break;
-  }
-}
-
 function parseStarletOut(error, stdout, stderr) {
   var arrSplit = stdout.split('$'); // split value-style string literals
   var arrVS = [];
@@ -103,11 +72,5 @@ function parseStarletOut(error, stdout, stderr) {
 // send output to function parseStarletOut()
 
 exec("cat socpo_isop_roadmap.html | cheerio \"div\" -a data-mxgraph | json xml | xmlstarlet fo > xmlformatted.xml; xmlstarlet sel -t -m \"//mxCell\" -v \"concat(@value,'|',@style,'$')\" xmlformatted.xml", parseStarletOut)
-
-
-
-
-
-
 
 
