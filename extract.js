@@ -1,76 +1,84 @@
-var exec = require('child_process').exec;
-var string = require('string');
+/*
+Parses magic format ;-))
 
+$ echo "TOPO|shape=singleArrow;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#ffffff;fontSize=18;fontColor=#000000;align=cent
+er;arrowWidth=0.275;arrowSize=0.07542372881355933;strokeColor=#000000;rotation=90;" | node extract.js
+singleArrow:TOPO
+
+*/
+var str = [];
+var byline = require("byline");
+byline(process.stdin /*,{keepEmptyLines:true}*/ ) //
+    .on("data", function(line) {
+        str.push(line += "");
+        //console.error("data:", line);
+    }).on("end", function() {
+        parseStarletOut(str.join(""));
+    });
+
+
+var string = require("string");
 // convert string to JSON form
 // string must be separated with = character and delimited with semi-colon between properties
 // eg. shape=square;whiteSpace=wrap;html=1;
 
 function str2json(literal) {
 
-  var style = literal.split(';')
-  var attrib = [];
-  var jsonForm = '';
-  var styleJSON = []; // this will hold the converted string
+    var style = literal.split(';')
+    var attrib = [];
+    var jsonForm = '';
+    var styleJSON = []; // this will hold the converted string
 
-  style.forEach(function(value){
-    attrib = value.split('=');
+    style.forEach(function(value) {
+        attrib = value.split('=');
 
-    if (attrib[0] != undefined && attrib[0] != '') {
-      len1 = attrib[0].length + 2;
-      attrib[0] = string(attrib[0]).pad(len1,'"').s;
-    }
+        if (attrib[0] != undefined && attrib[0] != '') {
+            len1 = attrib[0].length + 2;
+            attrib[0] = string(attrib[0]).pad(len1, '"').s;
+        }
 
-    if (attrib[1] != undefined && attrib[1] != '') {
-      len2 = attrib[1].length + 2;
-      attrib[1] = string(attrib[1]).pad(len2,'"').s;
-    }
+        if (attrib[1] != undefined && attrib[1] != '') {
+            len2 = attrib[1].length + 2;
+            attrib[1] = string(attrib[1]).pad(len2, '"').s;
+        }
 
-    jsonForm = attrib.join(":");
-    if (jsonForm != '') {
-      styleJSON.push(jsonForm);
-    }
+        jsonForm = attrib.join(":");
+        if (jsonForm != '') {
+            styleJSON.push(jsonForm);
+        }
 
-  });
+    });
 
-  var parseMe = "{" + styleJSON.join(",") + "}";
-  var json = JSON.parse(parseMe);
+    var parseMe = "{" + styleJSON.join(",") + "}";
+    var json = JSON.parse(parseMe);
 
-  return json;
+    return json;
 }
 
-function parseStarletOut(error, stdout, stderr) {
-  var arrSplit = stdout.split('$'); // split value-style string literals
-  var arrVS = [];
-  var obj = {};
-  var component = {};
+function parseStarletOut(str) {
+    console.error("str", str);
+    var arrSplit = str.split('$'); // split value-style string literals
+    var arrVS = [];
+    var obj = {};
+    var component = {};
 
-  arrSplit.forEach(function(value){
-    if (value.trim() != '' || value != undefined) {
-      arrVS = value.split('|') // split value from style
 
-      // check style string
-      if (arrVS[1] != undefined && arrVS[1].trim() != '') {
-        if (string(arrVS[1]).contains('shape')) {
-          obj = str2json(arrVS[1])
+    arrSplit.forEach(function(value) {
+        if (value && value.trim() != '') {
+            arrVS = value.split('|') // split value from style
 
-          // check value string
-	  if (arrVS[0] != undefined && arrVS[0].trim() != '') {
-	    label = arrVS[0];
-	    console.log(obj.shape + ":" + label)
-//            getObjType(obj.shape, label)
-	  }
+            // check style string
+            if (arrVS[1] != undefined && arrVS[1].trim() != '') {
+                if (string(arrVS[1]).contains('shape')) {
+                    obj = str2json(arrVS[1])
+
+                    // check value string
+                    if (arrVS[0] != undefined && arrVS[0].trim() != '') {
+                        label = arrVS[0];
+                        console.log(obj.shape + ":" + label)
+                    }
+                }
+            }
         }
-      }
-    }
-  });
-} // end function parseStarletOut
-
-// use cheerio and json tool to extract xml value
-// npm install -g cheerion-cli
-// npm install -g json
-// execute xmlstarlet to extract value and style attribute from mxCell element
-// send output to function parseStarletOut()
-
-exec("cat socpo_isop_roadmap.html | cheerio \"div\" -a data-mxgraph | json xml | xmlstarlet fo > xmlformatted.xml; xmlstarlet sel -t -m \"//mxCell\" -v \"concat(@value,'|',@style,'$')\" xmlformatted.xml", parseStarletOut)
-
-
+    });
+}
