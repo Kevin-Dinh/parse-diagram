@@ -16,6 +16,6 @@ ${0%/*}/../node_modules/.bin/json xml > xmlformatted.xml
 < xmlformatted.xml as_text cheerio " mxcell[value]:not([value=""])[style]" -a style > styles.txt
 paste -d"|" values.txt styles.txt > x.txt
 
-< x.txt node extract.js
+< x.txt node src/extract.js
 
 rm xmlformatted.xml values.txt styles.txt x.txt

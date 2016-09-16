@@ -2,7 +2,7 @@
   "name": "parse-diagram",
   "version": "1.0.0",
   "description": "",
-  "main": "extract.js",
+  "main": "src/extract.js",
   "dependencies": {
     "byline": "^5.0.0",
     "cheerio-cli": "^0.1.0",
