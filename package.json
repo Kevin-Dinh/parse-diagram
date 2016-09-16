@@ -5,6 +5,7 @@
   "main": "extract.js",
   "dependencies": {
     "byline": "^5.0.0",
+    "cheerio-cli": "^0.1.0",
     "string": "^3.3.1"
   },
   "devDependencies": {},

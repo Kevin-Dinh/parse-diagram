@@ -8,6 +8,5 @@
 
 # Prereq
 
-	cherrio-cli
 	json (jsontool)
 	xmlstarler

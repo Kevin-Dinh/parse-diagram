@@ -2,7 +2,7 @@
 
 file="$1"
 cat "$file" |\
-cheerio "div" -a data-mxgraph |\
+${0%/*}/../node_modules/.bin/cheerio "div" -a data-mxgraph |\
 json xml |\
 xmlstarlet fo > xmlformatted.xml
 
