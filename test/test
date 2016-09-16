@@ -1,4 +1,14 @@
 #!/bin/bash
-${0%/*}/../bin/parse-diagram ${0%/*}/fixtures/01-sample.in.html > ${0%/*}/fixtures/01-sample.in.html.tmp
-diff -w ${0%/*}/fixtures/01-sample.out.txt ${0%/*}/fixtures/01-sample.in.html.tmp
-rm ${0%/*}/fixtures/01-sample.in.html.tmp
+test(){
+	
+	${0%/*}/../bin/parse-diagram ${0%/*}/fixtures/$1.in.html > ${0%/*}/fixtures/$1.in.html.tmp
+	diff -w ${0%/*}/fixtures/$1.out.txt ${0%/*}/fixtures/$1.in.html.tmp
+	rm ${0%/*}/fixtures/$1.in.html.tmp
+}
+
+test 01-sample
+test 02-sample
+
+
+
+
