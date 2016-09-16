@@ -1,5 +1,10 @@
 #!/bin/bash
 
+as_text(){
+	# extract TEXT from plain or html (value attribute of cylynders, styled not styled text)	
+	(echo "<fake>";"$@"; echo "</fake>") | cheerio "fake" -o text
+}
+
 file="$1"
 cat "$file" |\
 ${0%/*}/../node_modules/.bin/cheerio "div" -a data-mxgraph |\
@@ -7,8 +12,8 @@ ${0%/*}/../node_modules/.bin/json xml > xmlformatted.xml
 
 # FIXME: how to select multiple atributes with cheerion-cli (file issue)
 # FIXME: select all text of all child nodes (see jquery)
-< xmlformatted.xml cheerio " mxcell[value]:not([value=""])[style]" -a value > values.txt
-< xmlformatted.xml cheerio " mxcell[value]:not([value=""])[style]" -a style > styles.txt
+< xmlformatted.xml as_text cheerio " mxcell[value]:not([value=""])[style]" -a value > values.txt
+< xmlformatted.xml as_text cheerio " mxcell[value]:not([value=""])[style]" -a style > styles.txt
 paste -d"|" values.txt styles.txt > x.txt
 
 < x.txt node extract.js
