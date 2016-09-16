@@ -16,44 +16,9 @@ byline(process.stdin /*,{keepEmptyLines:true}*/ ) //
         parseStarletOut(str.join("$"));
     });
 
+var style2json = require("../lib/style2json.js");
 
 
-// convert string to JSON form
-// string must be separated with = character and delimited with semi-colon between properties
-// eg. shape=square;whiteSpace=wrap;html=1;
-
-function style2json(literal) {
-
-    var style = literal.split(';')
-    var attrib = [];
-    var jsonForm = '';
-    var styleJSON = []; // this will hold the converted string
-
-    style.forEach(function(value) {
-        attrib = value.split('=');
-
-        if (attrib[0] != undefined && attrib[0] != '') {
-            len1 = attrib[0].length + 2;
-            attrib[0] = `"${attrib[0]}"`
-        }
-
-        if (attrib[1] != undefined && attrib[1] != '') {
-            len2 = attrib[1].length + 2;
-            attrib[1] = '"' + attrib[1] + "\""; //;-)))
-        }
-
-        jsonForm = attrib.join(":");
-        if (jsonForm != '') {
-            styleJSON.push(jsonForm);
-        }
-
-    });
-
-    var parseMe = "{" + styleJSON.join(",") + "}";
-    var json = JSON.parse(parseMe);
-
-    return json;
-}
 
 function parseStarletOut(str) {
     //console.error("str", str);
