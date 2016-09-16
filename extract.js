@@ -13,7 +13,7 @@ byline(process.stdin /*,{keepEmptyLines:true}*/ ) //
         str.push(line += "");
         //console.error("data:", line);
     }).on("end", function() {
-        parseStarletOut(str.join(""));
+        parseStarletOut(str.join("$"));
     });
 
 
@@ -56,7 +56,7 @@ function str2json(literal) {
 }
 
 function parseStarletOut(str) {
-    console.error("str", str);
+    //console.error("str", str);
     var arrSplit = str.split('$'); // split value-style string literals
     var arrVS = [];
     var obj = {};

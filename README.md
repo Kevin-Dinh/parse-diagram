@@ -4,9 +4,6 @@
 
 	https://github.com/gretchenleyson/parse-diagram.git
 	npm install
-	./bin/parse-diagram sample.drawio.xml
+	./bin/parse-diagram sample.drawio.xml # TODO: replace with npm run
 
-# Prereq
 
-	json (jsontool)
-	xmlstarler

@@ -3,10 +3,14 @@
 file="$1"
 cat "$file" |\
 ${0%/*}/../node_modules/.bin/cheerio "div" -a data-mxgraph |\
-${0%/*}/../node_modules/.bin/json xml |\
-xmlstarlet fo > xmlformatted.xml
+${0%/*}/../node_modules/.bin/json xml > xmlformatted.xml
 
-xmlstarlet sel -t -m " //mxCell" -v "concat(@value,'|',@style,'$')" xmlformatted.xml |\
-node extract.js
+# FIXME: how to select multiple atributes with cheerion-cli (file issue)
+# FIXME: select all text of all child nodes (see jquery)
+< xmlformatted.xml cheerio " mxcell[value]:not([value=""])[style]" -a value > values.txt
+< xmlformatted.xml cheerio " mxcell[value]:not([value=""])[style]" -a style > styles.txt
+paste -d"|" values.txt styles.txt > x.txt
 
-rm xmlformatted.xml
+< x.txt node extract.js
+
+rm xmlformatted.xml values.txt styles.txt x.txt
