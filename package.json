@@ -8,9 +8,12 @@
     "cheerio-cli": "^0.1.0",
     "jsontool": "^7.0.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jshint": "^2.9.3"
+  },
   "scripts": {
-    "test": "bash ./test/test",
+    "test": "npm run lint && bash ./test/test",
+    "lint": "jshint src",
     "demo": "bash ./bin/parse-diagram ./test/fixtures/01-sample.in.html"
   },
   "repository": {

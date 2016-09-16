@@ -29,18 +29,15 @@ function parseStarletOut(str) {
 
 
     arrSplit.forEach(function(value) {
-        if (value && value.trim() != '') {
-            arrVS = value.split('|') // split value from style
-
+        if (value && value.trim().length) {
+            arrVS = value.split('|'); // split value from style
             // check style string
-            if (arrVS[1] != undefined && arrVS[1].trim() != '') {
-                if (arrVS[1].indexOf("shape") !== 1) {
-                    obj = style2json(arrVS[1])
-                        // check value string
-                    if (arrVS[0] != undefined && arrVS[0].trim() != '') {
-                        label = arrVS[0];
-                        console.log(obj.shape + ":" + label)
-                    }
+
+            if (arrVS[1] && arrVS[1].indexOf("shape") !== 1) {
+                obj = style2json(arrVS[1]);
+                if (arrVS[0] && arrVS[0].trim().length) {
+                    label = arrVS[0];
+                    console.log(obj.shape + ":" + label);
                 }
             }
         }
