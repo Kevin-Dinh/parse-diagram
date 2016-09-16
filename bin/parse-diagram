@@ -8,3 +8,5 @@ xmlstarlet fo > xmlformatted.xml
 
 xmlstarlet sel -t -m " //mxCell" -v "concat(@value,'|',@style,'$')" xmlformatted.xml |\
 node extract.js
+
+rm xmlformatted.xml
