@@ -10,7 +10,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "bash ./test/test",
+    "demo": "bash ./bin/parse-diagram ./test/fixtures/01-sample.in.html"
   },
   "repository": {
     "type": "git",
