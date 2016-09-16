@@ -6,8 +6,7 @@
   "dependencies": {
     "byline": "^5.0.0",
     "cheerio-cli": "^0.1.0",
-    "jsontool": "^7.0.2",
-    "string": "^3.3.1"
+    "jsontool": "^7.0.2"
   },
   "devDependencies": {},
   "scripts": {

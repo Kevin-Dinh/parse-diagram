@@ -17,12 +17,12 @@ byline(process.stdin /*,{keepEmptyLines:true}*/ ) //
     });
 
 
-var string = require("string");
+
 // convert string to JSON form
 // string must be separated with = character and delimited with semi-colon between properties
 // eg. shape=square;whiteSpace=wrap;html=1;
 
-function str2json(literal) {
+function style2json(literal) {
 
     var style = literal.split(';')
     var attrib = [];
@@ -34,12 +34,12 @@ function str2json(literal) {
 
         if (attrib[0] != undefined && attrib[0] != '') {
             len1 = attrib[0].length + 2;
-            attrib[0] = string(attrib[0]).pad(len1, '"').s;
+            attrib[0] = `"${attrib[0]}"`
         }
 
         if (attrib[1] != undefined && attrib[1] != '') {
             len2 = attrib[1].length + 2;
-            attrib[1] = string(attrib[1]).pad(len2, '"').s;
+            attrib[1] = '"' + attrib[1] + "\""; //;-)))
         }
 
         jsonForm = attrib.join(":");
@@ -69,10 +69,9 @@ function parseStarletOut(str) {
 
             // check style string
             if (arrVS[1] != undefined && arrVS[1].trim() != '') {
-                if (string(arrVS[1]).contains('shape')) {
-                    obj = str2json(arrVS[1])
-
-                    // check value string
+                if (arrVS[1].indexOf("shape") !== 1) {
+                    obj = style2json(arrVS[1])
+                        // check value string
                     if (arrVS[0] != undefined && arrVS[0].trim() != '') {
                         label = arrVS[0];
                         console.log(obj.shape + ":" + label)
